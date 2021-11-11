@@ -1,7 +1,9 @@
 const express = require('express');
 const auth = require('./router/auth.js');
+const conexionDB = require('./config/db');
 
 const app = express();
+conexionDB();
 
 app.use(express.json());
 
