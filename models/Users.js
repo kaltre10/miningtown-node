@@ -1,7 +1,6 @@
 const mongoose = require('mongoose');
 
 const itemsSchema = new mongoose.Schema({});
-const gmSchema = new mongoose.Schema({});
 const xpSchema = new mongoose.Schema({});
 
 const UsersShema = mongoose.Schema({
@@ -16,8 +15,8 @@ const UsersShema = mongoose.Schema({
         default: {}
     },
     gm: {
-        type: gmSchema,
-        default: {}
+        type: Number,
+        default: 0
     },
     xp: {
         type: xpSchema,
