@@ -4,7 +4,7 @@ const User = require('../models/Users');
 exports.Update = async (req, res) => {
 
     const { wallet, amount, hash } = req.body;
-
+    console.log("wallet: "+wallet+" - monto: "+amount+" - hash: "+hash)
     try {
         const checkUser = await User.find({ wallet });
 
@@ -28,4 +28,19 @@ exports.Update = async (req, res) => {
         console.log(error);
         res.status(400).json(error.message);
     }
+}
+
+exports.getData = async (req,res)=>{
+    const wallet = req.params.wallet;
+    console.log("Wallet-node: "+wallet)
+    try {
+        const getUser = await User.find({wallet});
+        console.log(getUser)
+        if(Object.keys(getUser).length === 0) 
+            return res.status(404).json({msg: 'Usuario no existe'});
+        res.json(getUser)
+    } catch (error) {
+        console.log(error)
+    }
+    return res.json(wallet)
 }
