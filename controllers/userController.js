@@ -1,7 +1,7 @@
 const express = require('express');
 const User = require('../models/Users');
 
-exports.Update = async (req, res) => {
+exports.buyGm = async (req, res) => {
 
     const { wallet, amount, hash } = req.body;
     console.log("wallet: "+wallet+" - monto: "+amount+" - hash: "+hash)
@@ -11,14 +11,15 @@ exports.Update = async (req, res) => {
         if(Object.keys(checkUser).length === 0) 
             return res.status(404).json({msg: 'Usuario no existe'});
             
-        const newData = {};
+        const newData = {wallet,amount};
         if(wallet) newData.wallet = wallet;
 
-        //add gm
-        if(amount) newData.gm = amount;
+        //add gm 
+         var _user = await User.find({wallet});
+        if(amount) newData.gm = amount+_user[0].gm
 
-        user = await User.findOneAndUpdate({wallet: wallet}, newData, {new: true});
-
+        const user = await User.findOneAndUpdate({wallet: wallet}, newData, {new: true});
+        console.log("Tiene GM: "+user.gm)
         //return true
         res.json(true); 
         
@@ -30,17 +31,22 @@ exports.Update = async (req, res) => {
     }
 }
 
+exports.buyShip = async (req,res)=>{
+    const { wallet, price, name, id, txHash, type, miningRate } = req.body;
+    res.json(req.body)
+}
+
 exports.getData = async (req,res)=>{
     const wallet = req.params.wallet;
     console.log("Wallet-node: "+wallet)
     try {
-        const getUser = await User.find({wallet});
-        console.log(getUser)
-        if(Object.keys(getUser).length === 0) 
+        const user = await User.find({wallet});
+        console.log(user)
+        if(Object.keys(user).length === 0) 
             return res.status(404).json({msg: 'Usuario no existe'});
-        res.json(getUser)
+        res.json(user)
     } catch (error) {
         console.log(error)
     }
-    return res.json(wallet)
+    res.end()
 }

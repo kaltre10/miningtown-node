@@ -2,11 +2,15 @@ const express = require('express');
 const route = express.Router();
 const userController = require('../controllers/userController');
 
-route.post('/',
-    userController.Update
+route.put('/buygm',
+    userController.buyGm
 );
 
-route.get('/:wallet',
+route.put('/buyship',
+    userController.buyShip
+);
+
+route.get('/user/:wallet',
     userController.getData
     )
 
