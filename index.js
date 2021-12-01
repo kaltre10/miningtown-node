@@ -14,7 +14,7 @@ app.use(cors())
 app.use(express.json());
 app.use(express.static('build'));
 
-
+app.use('/test',(req,res)=> res.end("Test Success"))
 app.use('/api/v1/auth', cors(), auth); 
 app.use('/api/v1/', cors(), user);
 app.get('/*', (req, res) => res.sendFile(path.join(__dirname, '/build/index.html')));
